@@ -1,0 +1,26 @@
+{
+  "name": "arr-sort",
+  "version": "0.1.0",
+  "keywords": ["array", "arr", "sort", "elements", "element"],
+  "description": "Sort an object array by one or more properties even nested properties. Besides, you can determine the direction even supply a comparison function in each property sorting.",
+  "main": "index.js",
+  "author": "tywei90 <tywei90@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^2.4.5",
+    "should": "^8.3.1"
+  },
+  "dependencies": {
+    "arr-del": "^1.3.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "url": "https://github.com/tywei90/arr-sort"
+  },
+  "bugs": {
+    "url": "https://github.com/tywei90/arr-sort/issues"
+  },
+  "homepage": "https://github.com/tywei90/arr-sort#readme"
+}
