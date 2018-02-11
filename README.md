@@ -41,12 +41,12 @@ arrSort(array, comparisonArgs);
 ```
 
 * `array`: **{Object Array}** The object array to sort
-* `comparisonArgs`: **{Object Array}** One or more objects to sort by. The element structure is like this: **{'attr': attr, 'asc': asc}**
+* `comparisonArgs`: **{Object Array}** One or more objects to sort by. The element structure is like this: **{'attr': `attr`, 'asc': `asc`}**
     * `attr`: **{String}** the attribute of the object
     * `asc`: **{Boolean|Function}** point the direaction of sorting.
-        * `true` sort by ascending direction (default)
-        * `false` sort by descending direction
-        * `function` sort by a comparable function
+        * `true`: sort by ascending direction (default)
+        * `false`: sort by descending direction
+        * `function`: sort by a comparable function
 
 ## Note
 * If `attr` is not found in object, this sorting round would be skip.
@@ -57,7 +57,7 @@ arrSort(array, comparisonArgs);
 
 ## Examples
 
-** Sort by multiple properties
+**Sort by multiple properties**
 
 ```js
 var arrSort = require('arr-sort');
@@ -96,7 +96,7 @@ console.log(result);
 //   { foo: 'aaa', num: -3, flag: 4} ]
 ```
 
-** Sort by nested properties
+**Sort by nested properties**
 
 ```js
 var arrSort = require('arr-sort');
@@ -135,9 +135,9 @@ console.log(result);
 //   { locals: { foo: 'aaa', num: -3 }, flag: 4} ]
 ```
 
-** Sort by custom function
+**Sort by custom function**
 
-If custom functions are supplied, array elements are sorted according to the return value of the compare function. See the [docs for ](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)`Array.sort()` for more details.
+If custom functions are supplied, array elements are sorted according to the return value of the compare function. See the [docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)`Array.sort()` for more details.
 
 ```js
 var arrSort = require('arr-sort');
@@ -192,7 +192,7 @@ $ npm install && npm test
 
 ### Author
 
-** tywei90 **
+**tywei90**
 
 * [github/tywei90](https://github.com/tywei90)
 * [blog/tywei90](https://www.wty90.com)
