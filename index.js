@@ -30,8 +30,8 @@ function flattenObject(ob) {
 	return toReturn;
 }
 
-// select matched value
-function selData(arr, asc) {
+// get compare function
+function getCompFn(asc) {
 	var sortFn;
 	if(typeof asc === 'function'){
 		sortFn = asc;
@@ -56,56 +56,66 @@ function selData(arr, asc) {
 			}
 		}
 	}
-	arr.sort(sortFn);
-	return arr[0]
+	return sortFn
 }
 
 // select array whose attribute matches
 function selObjArr(arr, attr, asc) {
-	var optData;
-	var tmpArr = [];
 	var outArr = [];
+	var arr2 = JSON.parse(JSON.stringify(arr));
+	var sortFn = getCompFn(asc);
 	if(attr === undefined || arr.length === 0){
 		return [];
 	}
 	if(typeof attr !== "string"){
 		throw new TypeError('PARAM MUST BE STRING');
 	}
-	for(var i=0,len=arr.length; i<len; i++){
-		tmpArr.push(flattenObject(arr[i])[attr]);
-	}
-	optData = selData(tmpArr, asc);
-	for(var i=0,len=arr.length; i<len; i++){
-		if (flattenObject(arr[i])[attr] === optData) {
-			outArr.push(arr[i]);
+	for(var i=0, len = arr2.length; i<len; i++){
+		if(Object.prototype.toString.call(arr2[i]) !== "[object Object]"){
+			throw new TypeError('PARAM MUST BE OBJECT ARRAY');
 		}
 	}
+	arr2.sort(function(a,b){return sortFn(flattenObject(a)[attr], flattenObject(b)[attr])});
+	var optIndex;
+	for(var i=0, len = arr2.length-1; i<len; i++){
+		if(sortFn(flattenObject(arr[i])[attr], flattenObject(arr[i+1])[attr])){
+			optIndex = i;
+			break
+		}
+		if(i == len-1){
+			optIndex = len;
+			break
+		}
+	}
+	outArr = arr2.slice(0, optIndex+1);
 	return outArr
 }
 
 /**
- * Delete array elements in one time by array consists of their indexes
+ * Sort an object array by one or more properties
  *
- * @param  {Array} `arr` The Array to sort.
- * @param  {Number Array} `indexArr` Array consists of indexes which you want to delete.
- * @return {Array} Returns a new deleted array.
+ * @param { Object Array } `arr` The object array to sort.
+ * @param { Object Array } `sortLists` One or more objects to sort by.
+ * @return { Array } Returns a new deleted array.
  * @api public
  */
 function arrSort(arr, sortLists) {
-	if(sortLists === undefined){
+	// check params
+	if (arr == null) {
+    	return [];
+  	}else if(Object.prototype.toString.call(arr) !== "[object Array]"){
+  		throw new TypeError('PARAM MUST BE ARRAY');
+  	}
+  	if(sortLists == null){
 		return arr;
-	}
-	if(Object.prototype.toString.call(sortLists) !== "[object Array]"){
+	}else if(Object.prototype.toString.call(sortLists) !== "[object Array]"){
 		throw new TypeError('PARAM MUST BE ARRAY');
 	}
 	var i = 0;
 	var len = sortLists.length;
 	var inArr = JSON.parse(JSON.stringify(arr));
 	var outArr = [];
-	if (inArr.length === 0) {
-		return [];
-	}
-	if(len === 0){
+	if(!len){
 		return inArr;
 	}
 	// the right method to use arguments.callee in strict mode
