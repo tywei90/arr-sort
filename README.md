@@ -57,7 +57,7 @@ arrSort(array, comparisonArgs);
 
 ## Examples
 
-**Sort by multiple properties**
+**1. Sort by multiple properties**
 
 ```js
 var arrSort = require('arr-sort');
@@ -96,7 +96,7 @@ console.log(result);
 //   { foo: 'aaa', num: -3, flag: 4} ]
 ```
 
-**Sort by nested properties**
+**2. Sort by nested properties**
 
 ```js
 var arrSort = require('arr-sort');
@@ -135,7 +135,7 @@ console.log(result);
 //   { locals: { foo: 'aaa', num: -3 }, flag: 4} ]
 ```
 
-**Sort by custom function**
+**3. Sort by custom function**
 
 If custom functions are supplied, array elements are sorted according to the return value of the compare function. See the [docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)`Array.sort()` for more details.
 

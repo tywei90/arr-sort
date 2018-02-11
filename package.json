@@ -1,6 +1,6 @@
 {
   "name": "arr-sort",
-  "version": "0.5.1",
+  "version": "1.0.0",
   "keywords": ["array", "arr", "sort", "elements", "element"],
   "description": "Sort an object array by one or more properties even nested properties. Besides, you can determine the direction even supply a comparison function in each property sorting.",
   "main": "index.js",
