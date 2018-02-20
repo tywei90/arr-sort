@@ -1,6 +1,6 @@
 # arr-sort [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/tywei90/arr-sort/blob/master/LICENSE) [![NPM version](https://img.shields.io/npm/v/arr-sort.svg?style=flat)](https://www.npmjs.com/package/arr-sort) [![NPM monthly downloads](https://img.shields.io/npm/dm/arr-sort.svg?style=flat)](https://www.npmjs.com/package/arr-sort) [![NPM total downloads](https://img.shields.io/npm/dt/arr-sort.svg?style=flat)](https://www.npmjs.com/package/arr-sort) [![Windows Build Status](https://travis-ci.org/tywei90/arr-sort.svg?branch=master)](https://travis-ci.org/tywei90/arr-sort)
 
-[English](./README.md)
+### [English](./README.md)
 
 > 根据一个或者多个属性对数组进行排序，支持嵌套的属性。而且可以在每个条件中指定排序的方向，并支持传入比较函数。
 

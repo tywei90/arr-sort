@@ -1,6 +1,6 @@
 # arr-sort [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/tywei90/arr-sort/blob/master/LICENSE) [![NPM version](https://img.shields.io/npm/v/arr-sort.svg?style=flat)](https://www.npmjs.com/package/arr-sort) [![NPM monthly downloads](https://img.shields.io/npm/dm/arr-sort.svg?style=flat)](https://www.npmjs.com/package/arr-sort) [![NPM total downloads](https://img.shields.io/npm/dt/arr-sort.svg?style=flat)](https://www.npmjs.com/package/arr-sort) [![Windows Build Status](https://travis-ci.org/tywei90/arr-sort.svg?branch=master)](https://travis-ci.org/tywei90/arr-sort)
 
-[中文](./README.ch.md)
+### [中文](./README.ch.md)
 
 > Sort an object array by one or more properties even nested properties. Besides, you can determine the direction even supply a comparison function in each property sorting.
 
@@ -42,10 +42,10 @@ arrSort([{foo: 'y'}, {foo: 'z'}, {foo: 'x'}],[{attr:'foo', asc: false}]);
 arrSort(array, comparisonArgs);
 ```
 
-* `array`: **{Object Array}** The object array to sort
-* `comparisonArgs`: **{Object Array}** One or more objects to sort by. The element structure is like this: **{'attr': `attr`, 'asc': `asc`}**
-    * `attr`: **{String}** the attribute of the object
-    * `asc`: **{Boolean|Function}** point the direaction of sorting.
+* `array`: **{ Object Array }** The object array to sort
+* `comparisonArgs`: **{ Object Array }** One or more objects to sort by. The element structure is like this: **{ 'attr': `attr`, 'asc': `asc` }**
+    * `attr`: **{ String }** the attribute of the object
+    * `asc`: **{ Boolean|Function }** point the direaction of sorting.
         * `true`: sort by ascending direction (default)
         * `false`: sort by descending direction
         * `function`: sort by a comparable function
