@@ -1,26 +1,26 @@
 # arr-sort [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/tywei90/arr-sort/blob/master/LICENSE) [![NPM version](https://img.shields.io/npm/v/arr-sort.svg?style=flat)](https://www.npmjs.com/package/arr-sort) [![NPM monthly downloads](https://img.shields.io/npm/dm/arr-sort.svg?style=flat)](https://www.npmjs.com/package/arr-sort) [![NPM total downloads](https://img.shields.io/npm/dt/arr-sort.svg?style=flat)](https://www.npmjs.com/package/arr-sort) [![Windows Build Status](https://travis-ci.org/tywei90/arr-sort.svg?branch=master)](https://travis-ci.org/tywei90/arr-sort)
 
-[中文](./README.ch.md)
+[English](./README.md)
 
-> Sort an object array by one or more properties even nested properties. Besides, you can determine the direction even supply a comparison function in each property sorting.
+> 根据一个或者多个属性对数组进行排序，支持嵌套的属性。而且可以在每个条件中指定排序的方向，并支持传入比较函数。
 
-## Install
+## 安装
 
-Install with [npm](https://www.npmjs.com/):
+采用 [npm](https://www.npmjs.com/) 安装:
 
 ```sh
 $ npm install --save arr-sort
 ```
 
-Install with [yarn](https://yarnpkg.com):
+采用 [yarn](https://yarnpkg.com) 安装:
 
 ```sh
 $ yarn add arr-sort
 ```
 
-## Usage
+## 用法
 
-Sort an array by the given object property:
+通过给定的对象属性进行排序：
 
 ```js
 var arrSort = require('arr-sort');
@@ -29,37 +29,37 @@ arrSort([{foo: 'y'}, {foo: 'z'}, {foo: 'x'}],[{attr:'foo'}]);
 //=> [{foo: 'x'}, {foo: 'y'}, {foo: 'z'}]
 ```
 
-**Reverse order**
+**逆向排序**
 
 ```js
 arrSort([{foo: 'y'}, {foo: 'z'}, {foo: 'x'}],[{attr:'foo', asc: false}]);
 //=> [{foo: 'z'}, {foo: 'y'}, {foo: 'x'}]
 ```
 
-## Params
+## 参数
 
 ```js
 arrSort(array, comparisonArgs);
 ```
 
-* `array`: **{Object Array}** The object array to sort
-* `comparisonArgs`: **{Object Array}** One or more objects to sort by. The element structure is like this: **{'attr': `attr`, 'asc': `asc`}**
-    * `attr`: **{String}** the attribute of the object
-    * `asc`: **{Boolean|Function}** point the direaction of sorting.
-        * `true`: sort by ascending direction (default)
-        * `false`: sort by descending direction
-        * `function`: sort by a comparable function
+* `array`: **{ Object Array }** 待排序的数组
+* `comparisonArgs`: **{ Object Array }** 一个或者多个对象组成的数组。 结构如下：**{ 'attr': `attr`, 'asc': `asc` }**
+    * `attr`: **{ String }** 对象属性
+    * `asc`: **{ Boolean|Function }** 指定排序的方向
+        * `true`: 升序（默认值）
+        * `false`: 降序
+        * `function`: 传入的比较函数
 
-## Note
-* If `attr` is not found in object, this sorting round would be skip.
-* The value of `attr` can be a string or a number. 
-    * If string, we use `localeCompare` to sort by. 
-    * If number, we just compare the amount of the number.
-* If there is not a return value of `function`, this sorting round would be skip.
+## 注意
+* 如何没有提供 `attr` 属性, 则这次的排序会自动跳过
+* `attr` 属性值类型可以是 string 或者 number
+    * 如果是 string, 我们采用 `localeCompare` 去比较排序
+    * 如果是 number, 我们直接比较值的大小
+* 如果提供的比较函数没有返回值，则这次的排序会自动跳过
 
-## Examples
+## 例子
 
-**1. Sort by multiple properties**
+**1. 多重条件排序**
 
 ```js
 var arrSort = require('arr-sort');
@@ -98,7 +98,7 @@ console.log(result);
 //   { foo: 'aaa', num: -3, flag: 4} ]
 ```
 
-**2. Sort by nested properties**
+**2. 嵌套的属性排序**
 
 ```js
 var arrSort = require('arr-sort');
@@ -137,9 +137,9 @@ console.log(result);
 //   { locals: { foo: 'aaa', num: -3 }, flag: 4} ]
 ```
 
-**3. Sort by custom function**
+**3. 传入比较函数排序**
 
-If custom functions are supplied, array elements are sorted according to the return value of the compare function. See the [docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) for more details.
+如果提供了比较函数，数组会根据其返回值排序。比较函数具体可以参考[docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
 
 ```js
 var arrSort = require('arr-sort');
@@ -178,28 +178,28 @@ console.log(result);
 //   { locals: { foo: 'aaa', num: -3 }, flag: 4} ]
 ```
 
-## About
+## 关于
 
-### Related projects
+### 相关项目
 
-* [arr-del](https://www.npmjs.com/package/arr-del): Delete array elements in one time by array consists of their indexes. | [homepage](https://github.com/tywei90/arr-del "Delete array elements in one time by array consists of their indexes.")
+* [arr-del](https://www.npmjs.com/package/arr-del): 一次性删除数组指定index的元素 | [homepage](https://github.com/tywei90/arr-del "一次性删除数组指定index的元素")
 
-### Running tests
+### 集成测试
 
-Running and reviewing unit tests is a great way to get familiarized with a library and its API. You can install dependencies and run tests with the following command:
+跑集成测试是一个非常好的熟悉一个项目及其API的方法。你可以通过以下命令安装依赖并跑测试：
 
 ```sh
 $ npm install && npm test
 ```
 
-### Author
+### 作者
 
 **tywei90**
 
 * [github/tywei90](https://github.com/tywei90)
 * [blog/tywei90](https://www.wty90.com)
 
-### License
+### 许可证
 
 Copyright © 2018, [tywei90](https://github.com/tywei90).
 Released under the [MIT License](LICENSE).
