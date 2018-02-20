@@ -45,7 +45,7 @@ arrSort(array, comparisonArgs);
 * `array`: **{ Object Array }** The object array to sort
 * `comparisonArgs`: **{ Object Array }** One or more objects to sort by. The element structure is like this: **{ 'attr': `attr`, 'asc': `asc` }**
     * `attr`: **{ String }** the attribute of the object
-    * `asc`: **{ Boolean|Function }** point the direaction of sorting.
+    * `asc`: **{ Boolean | Function }** point the direaction of sorting.
         * `true`: sort by ascending direction (default)
         * `false`: sort by descending direction
         * `function`: sort by a comparable function

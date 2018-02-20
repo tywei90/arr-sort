@@ -45,7 +45,7 @@ arrSort(array, comparisonArgs);
 * `array`: **{ Object Array }** 待排序的数组
 * `comparisonArgs`: **{ Object Array }** 一个或者多个对象组成的数组。 结构如下：**{ 'attr': `attr`, 'asc': `asc` }**
     * `attr`: **{ String }** 对象属性
-    * `asc`: **{ Boolean|Function }** 指定排序的方向
+    * `asc`: **{ Boolean | Function }** 指定排序的方向
         * `true`: 升序（默认值）
         * `false`: 降序
         * `function`: 传入的比较函数
