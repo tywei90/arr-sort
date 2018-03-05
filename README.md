@@ -25,14 +25,16 @@ Sort an array by the given object property:
 ```js
 var arrSort = require('arr-sort');
 
-arrSort([{foo: 'y'}, {foo: 'z'}, {foo: 'x'}],[{attr:'foo'}]);
+var arr = [{foo: 'y'}, {foo: 'z'}, {foo: 'x'}];
+arrSort(arr, [{attr:'foo'}]);
 //=> [{foo: 'x'}, {foo: 'y'}, {foo: 'z'}]
 ```
 
 **Reverse order**
 
 ```js
-arrSort([{foo: 'y'}, {foo: 'z'}, {foo: 'x'}],[{attr:'foo', asc: false}]);
+var arr = [{foo: 'y'}, {foo: 'z'}, {foo: 'x'}];
+arrSort(arr, [{attr:'foo', asc: false}]);
 //=> [{foo: 'z'}, {foo: 'y'}, {foo: 'x'}]
 ```
 
