@@ -36,8 +36,8 @@ function getCompFn(asc) {
 	if(typeof asc === 'function'){
 		sortFn = asc;
 	}else{
-		sortFn = function(a, b){
-			if(asc === false){
+		if(asc === false){
+			sortFn = function(a, b){
 				if(typeof a === 'string'){
 					return b.localeCompare(a)
 				}
@@ -45,7 +45,9 @@ function getCompFn(asc) {
 					return b - a
 				}
 				return 0
-			}else{
+			}
+		}else{
+			sortFn = function(a, b){
 				if(typeof a === 'string'){
 					return a.localeCompare(b)
 				}
@@ -78,7 +80,7 @@ function selObjArr(arr, attr, asc) {
 	arr2.sort(function(a,b){return sortFn(flattenObject(a)[attr], flattenObject(b)[attr])});
 	var optIndex;
 	for(var i=0, len = arr2.length-1; i<len; i++){
-		if(sortFn(flattenObject(arr[i])[attr], flattenObject(arr[i+1])[attr])){
+		if(sortFn(flattenObject(arr2[i])[attr], flattenObject(arr2[i+1])[attr])){
 			optIndex = i;
 			break
 		}
