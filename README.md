@@ -57,7 +57,7 @@ arrSort(array, comparisonArgs);
 * The value of `attr` can be a string or a number. 
     * If string, we use `localeCompare` to sort by. 
     * If number, we just compare the amount of the number.
-* If there is not a return value of `function`, this sorting round would be skip.
+* The comparison function must follow the [sort function specification](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort), if it is equal, it must return 0, otherwise the subsequent sorting will not participate! If there is not a return value of `function`, this sorting round would be skip.
 
 ## Examples
 
@@ -141,7 +141,7 @@ console.log(result);
 
 **3. Sort by custom function**
 
-If custom functions are supplied, array elements are sorted according to the return value of the compare function. See the [docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) for more details.
+If custom functions are supplied, array elements are sorted according to the return value of the compare function. See the [sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) for more details.
 
 ```js
 var arrSort = require('arr-sort');
