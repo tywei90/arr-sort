@@ -55,7 +55,7 @@ arrSort(array, comparisonArgs);
 * `attr` 属性值类型可以是 string 或者 number
     * 如果是 string, 我们采用 `localeCompare` 去比较排序
     * 如果是 number, 我们直接比较值的大小
-* 如果提供的比较函数没有返回值，则这次的排序会自动跳过
+* 比较函数一定要遵循[sort函数规范](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)，如果是相等，一定要返回0，否则后续的排序不会参与！如果提供的比较函数没有返回值，则这次的排序会自动跳过
 
 ## 例子
 
@@ -139,7 +139,7 @@ console.log(result);
 
 **3. 传入比较函数排序**
 
-如果提供了比较函数，数组会根据其返回值排序。比较函数具体可以参考[docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
+如果提供了比较函数，数组会根据其返回值排序。注意：比较函数一定要遵循[sort函数规范](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)，如果是相等，一定要返回0，否则后续的排序不会参与！
 
 ```js
 var arrSort = require('arr-sort');
