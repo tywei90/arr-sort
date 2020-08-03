@@ -139,7 +139,7 @@ console.log(result);
 
 **3. 传入比较函数排序**
 
-如果提供了比较函数，数组会根据其返回值排序。注意：比较函数一定要遵循[sort函数规范](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)，如果是相等，一定要返回0，否则后续的排序不会参与！
+如果提供了比较函数，数组会根据其返回值排序。参考：[sort函数规范](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
 
 ```js
 var arrSort = require('arr-sort');
