@@ -71,27 +71,50 @@ function getObjectValue (obj, attr) {
 
 // select array whose attribute matches
 function selObjArr(arr, attr, asc, ignore) {
-	var outArr = [];
 	var sortFn = getCompFn(asc);
-	if(attr === undefined || arr.length === 0){
-		return [];
+	if (attr === undefined || arr.length === 0) {
+		return [
+			[],
+			[]
+		];
+	}
+	if (arr.length === 1) {
+		return [arr.concat(), []];
 	}
 	if (!ignore) {
-		arr.sort(function(a,b){return sortFn(getObjectValue(a, attr), getObjectValue(b, attr))});
+		arr.sort(function (a, b) {
+			return sortFn(getObjectValue(a, attr), getObjectValue(b, attr))
+		});
 	}
-	var optIndex = 0;
-	for(var i=0, len = arr.length-1; i<len; i++){
-		if(sortFn(getObjectValue(arr[i], attr), getObjectValue(arr[i+1], attr))){
-			optIndex = i;
+	// firstly, select diff arrays whose attribute matches
+	var diffIndex = 0;
+	for (var i = 0, len = arr.length - 1; i < len; i++) {
+		if (!sortFn(getObjectValue(arr[i], attr), getObjectValue(arr[i + 1], attr))) {
+			diffIndex = i;
 			break
 		}
-		if(i == len-1){
-			optIndex = len;
+		if (i == len - 1) {
+			diffIndex = len + 1;
 			break
 		}
 	}
-	outArr = arr.slice(0, optIndex+1);
-	return outArr
+	var diffArr = arr.slice(0, diffIndex);
+
+	// then, select same arrays whose attribute matches
+	var sameIndex = 0;
+	var leftArr = arr.slice(diffIndex);
+	for (var j = 0, len2 = leftArr.length - 1; j < len2; j++) {
+		if (sortFn(getObjectValue(leftArr[j], attr), getObjectValue(leftArr[j + 1], attr))) {
+			sameIndex = j;
+			break
+		}
+		if (j == len2 - 1) {
+			sameIndex = len2;
+			break
+		}
+	}
+	var sameArr = leftArr.slice(0, sameIndex + 1);
+	return [diffArr, sameArr]
 }
 
 /**
@@ -105,75 +128,97 @@ function selObjArr(arr, attr, asc, ignore) {
 function arrSort(arr, sortLists) {
 	// check params
 	if (arr == null) {
-    	return [];
-  	}else if(Object.prototype.toString.call(arr) !== "[object Array]"){
-  		throw new TypeError('PARAM MUST BE ARRAY');
-  	}
-  	if(sortLists == null){
-		return arr;
-	}else if(Object.prototype.toString.call(sortLists) !== "[object Array]"){
-		throw new TypeError('PARAM MUST BE ARRAY');
+		return [];
+	} else if (Object.prototype.toString.call(arr) !== "[object Array]") {
+		throw new TypeError('array param MUST BE ARRAY');
 	}
+
+	if (sortLists == null) {
+		return arr;
+	} else if (Object.prototype.toString.call(sortLists) !== "[object Array]") {
+		throw new TypeError('comparisonArgs param MUST BE ARRAY');
+	}
+
 	var i = 0;
 	var len = sortLists.length;
 	var inArr = [];
 	var outArr = [];
-	if(!len){
+	var isSorted = false
+
+	if (!len) {
 		return arr;
 	}
-	// mark array item for follow-up deleting
+
 	arr.forEach((item, index) => {
-		if(Object.prototype.toString.call(item) !== "[object Object]"){
-			throw new TypeError('PARAM MUST BE OBJECT ARRAY');
+		if (Object.prototype.toString.call(item) !== "[object Object]") {
+			throw new TypeError('the item of array param MUST BE OBJECT');
 		}
+		// mark array item for follow-up deleting
 		item.$$index = index
 		inArr.push(item)
 	});
-	var isSort = false
+
+	sortLists.forEach(item => {
+		if (Object.prototype.toString.call(item) !== "[object Object]") {
+			throw new TypeError('the item of comparisonArgs param MUST BE OBJECT');
+		}
+	});
+
 	// the right method to use arguments.callee in strict mode
 	var sortArrOuter = (function sortArrWrap(arr, sortList) {
-		var filterArr = [];
 		if (arr.length === 0) {
 			return;
 		}
-		filterArr = selObjArr(arr, sortList.attr || '', sortList.asc, sortList.attr === sortLists[0].attr && isSort);
-		if (!isSort && sortList.attr === sortLists[0].attr) {
-			isSort = true
+		// mark first attr sorted, optimize performance
+		var ignore = sortList.attr === sortLists[0].attr && isSorted
+		var filterArr = selObjArr(arr, sortList.attr || '', sortList.asc, ignore);
+		if (!isSorted) {
+			isSorted = true
 		}
-		if(filterArr.length === 0){
-			filterArr = arr;
-		}
-		if (filterArr.length === 1 || i >= len - 1) {
-			outArr = outArr.concat(filterArr);
-			// delete the corresponding original array element
+
+		// if pick out matched arrays, push into outArr
+		if (filterArr[0].length || i >= len - 1) {
+			var rsArr = filterArr[0].concat(i >= len - 1 ? filterArr[1] : [])
+			outArr = outArr.concat(rsArr);
+			// delete the corresponding array, update inArr
 			var newInArr = []
 			var filterIndexArr = []
-			for(var k=0,len1=filterArr.length; k<len1; k++){
-				filterIndexArr.push(filterArr[k].$$index)
+			for (var k = 0, len1 = rsArr.length; k < len1; k++) {
+				filterIndexArr.push(rsArr[k].$$index)
 			}
-			for(var j=0,len2=inArr.length; j<len2; j++){
+			for (var j = 0, len2 = inArr.length; j < len2; j++) {
 				if (filterIndexArr.indexOf(inArr[j].$$index) === -1) {
 					newInArr.push(inArr[j])
 				}
 			}
 			inArr = newInArr
-		} else {
+			// free the memory
+			rsArr = null
+			newInArr = null
+			filterIndexArr = null
+		}
+
+		// if there is left arrays, next turn
+		if (filterArr[1].length && i < len - 1) {
 			i++;
-			sortArrWrap(filterArr, sortLists[i])
+			sortArrWrap(filterArr[1], sortLists[i])
 		}
 	})
+
 	var loopSortArr = (function loopSortArrWrap() {
 		i = 0;
 		sortArrOuter(inArr, sortLists[0]);
-		if (inArr.length === 0) {
+		if (inArr.length === 0 || arr.length === outArr.length) {
 			return
 		}
 		loopSortArrWrap();
 	})
+
 	loopSortArr();
 	outArr.forEach(item => {
 		delete item.$$index
 	});
+
 	return outArr
 }
 
