@@ -1,16 +1,21 @@
 /*
  * arr-sort <https://github.com/tywei90/arr-sort>
  *
- * Copyright (c) 2018-2020, tywei90.
+ * Copyright (c) 2018-2022, tywei90.
  * Released under the MIT License.
+ * version: 1.2.0
  */
 
 'use strict';
 
 
-/*
+
+/**
  * Flatten javascript objects into a single-depth object
- * Object Flatten <https://gist.github.com/penguinboy/762197>
+ *
+ * @param { Object } `ob` The object to flatten.
+ * @return { Object } Returns single-depth object.
+ * @api private
  */
 function flattenObject(ob) {
 	var toReturn = {};
@@ -29,28 +34,35 @@ function flattenObject(ob) {
 	return toReturn;
 }
 
-// get compare function
+
+/**
+ * get compare function
+ *
+ * @param { Function | Boolean } `asc` comparison order.
+ * @return { Function } Returns comparison function.
+ * @api private
+ */
 function getCompFn(asc) {
 	var sortFn;
-	if(typeof asc === 'function'){
+	if (typeof asc === 'function') {
 		sortFn = asc;
-	}else{
-		if(asc === false){
-			sortFn = function(a, b){
-				if(typeof a === 'string'){
+	} else {
+		if (asc === false) {
+			sortFn = function (a, b) {
+				if (typeof a === 'string') {
 					return b.localeCompare(a)
 				}
-				if(typeof a === 'number'){
+				if (typeof a === 'number') {
 					return b - a
 				}
 				return 0
 			}
-		}else{
-			sortFn = function(a, b){
-				if(typeof a === 'string'){
+		} else {
+			sortFn = function (a, b) {
+				if (typeof a === 'string') {
 					return a.localeCompare(b)
 				}
-				if(typeof a === 'number'){
+				if (typeof a === 'number') {
 					return a - b
 				}
 				return 0
@@ -60,7 +72,16 @@ function getCompFn(asc) {
 	return sortFn
 }
 
-function getObjectValue (obj, attr) {
+
+/**
+ * if not nested properties, optimize performance
+ *
+ * @param { Object } `obj` The object to get value.
+ * @param { attr } `attr` object key.
+ * @return { any } Returns object value.
+ * @api private
+ */
+function getObjectValue(obj, attr) {
 	if (attr.indexOf('.') === -1) {
 		return obj[attr]
 	} else {
@@ -69,7 +90,16 @@ function getObjectValue (obj, attr) {
 }
 
 
-// select array whose attribute matches
+/**
+ * select diff arrays and same arrays whose attribute matches
+ *
+ * @param { Object Array } `arr` The object array to select.
+ * @param { String } `attr` object key.
+ * @param { Function | Boolean } `asc` comparison order.
+ * @param { Boolean } `ignore` if skip sort.
+ * @return { Array } Returns [diff arrays, same arrays].
+ * @api private
+ */
 function selObjArr(arr, attr, asc, ignore) {
 	var sortFn = getCompFn(asc);
 	if (attr === undefined || arr.length === 0) {
@@ -117,15 +147,16 @@ function selObjArr(arr, attr, asc, ignore) {
 	return [diffArr, sameArr]
 }
 
+
 /**
  * Sort an object array by one or more properties
  *
  * @param { Object Array } `arr` The object array to sort.
- * @param { Object Array } `sortLists` One or more objects to sort by.
+ * @param { Object Array } `sortList` One or more objects to sort by.
  * @return { Array } Returns a new deleted array.
  * @api public
  */
-function arrSort(arr, sortLists) {
+function arrSort(arr, sortList) {
 	// check params
 	if (arr == null) {
 		return [];
@@ -133,14 +164,14 @@ function arrSort(arr, sortLists) {
 		throw new TypeError('array param MUST BE ARRAY');
 	}
 
-	if (sortLists == null) {
+	if (sortList == null) {
 		return arr;
-	} else if (Object.prototype.toString.call(sortLists) !== "[object Array]") {
+	} else if (Object.prototype.toString.call(sortList) !== "[object Array]") {
 		throw new TypeError('comparisonArgs param MUST BE ARRAY');
 	}
 
 	var i = 0;
-	var len = sortLists.length;
+	var len = sortList.length;
 	var inArr = [];
 	var outArr = [];
 	var isSorted = false
@@ -158,20 +189,19 @@ function arrSort(arr, sortLists) {
 		inArr.push(item)
 	});
 
-	sortLists.forEach(item => {
+	sortList.forEach(item => {
 		if (Object.prototype.toString.call(item) !== "[object Object]") {
 			throw new TypeError('the item of comparisonArgs param MUST BE OBJECT');
 		}
 	});
 
-	// the right method to use arguments.callee in strict mode
-	var sortArrOuter = (function sortArrWrap(arr, sortList) {
+	function sortInner(arr, sortObj) {
 		if (arr.length === 0) {
 			return;
 		}
 		// mark first attr sorted, optimize performance
-		var ignore = sortList.attr === sortLists[0].attr && isSorted
-		var filterArr = selObjArr(arr, sortList.attr || '', sortList.asc, ignore);
+		var ignore = sortObj.attr === sortList[0].attr && isSorted
+		var filterArr = selObjArr(arr, sortObj.attr || '', sortObj.asc, ignore);
 		if (!isSorted) {
 			isSorted = true
 		}
@@ -201,20 +231,20 @@ function arrSort(arr, sortLists) {
 		// if there is left arrays, next turn
 		if (filterArr[1].length && i < len - 1) {
 			i++;
-			sortArrWrap(filterArr[1], sortLists[i])
+			sortInner(filterArr[1], sortList[i])
 		}
-	})
+	}
 
-	var loopSortArr = (function loopSortArrWrap() {
+	function sortOuter() {
 		i = 0;
-		sortArrOuter(inArr, sortLists[0]);
+		sortInner(inArr, sortList[0]);
 		if (inArr.length === 0 || arr.length === outArr.length) {
 			return
 		}
-		loopSortArrWrap();
-	})
+		sortOuter();
+	}
 
-	loopSortArr();
+	sortOuter();
 	outArr.forEach(item => {
 		delete item.$$index
 	});
