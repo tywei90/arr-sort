@@ -1,33 +1,34 @@
 'use strict';
 
 require('mocha');
-var should = require('should');
+require('should');
+
 var arrSort = require('./');
 
-describe('errors', function() {
+describe('error tips', function() {
     var arr = [{foo: 'y'}, {foo: 'z'}, {foo: 'x'}];
     it('should throw an error when invalid type of array are passed', function() {
         (function() {
             arrSort({});
-        }).should.throw('PARAM MUST BE ARRAY');
+        }).should.throw('array param MUST BE ARRAY');
     });
 
     it('should throw an error when invalid type of comparisonArgs are passed', function() {
         (function() {
             arrSort(arr, 2);
-        }).should.throw('PARAM MUST BE ARRAY');
+        }).should.throw('comparisonArgs param MUST BE ARRAY');
     });
 
     it('should throw an error when array elements are not an object', function() {
         (function() {
-            arrSort(arr, [2, 'string']);
-        }).should.throw('PARAM MUST BE OBJECT ARRAY');
+            arrSort([2, 'string'], [{attr:'foo'}]);
+        }).should.throw('the item of array param MUST BE OBJECT');
     });
 
     it('should throw an error when comparisonArgs elements are not an object', function() {
         (function() {
-            arrSort([2, 'string'], [{attr:'foo'}]);
-        }).should.throw('PARAM MUST BE OBJECT ARRAY');
+            arrSort(arr, [2, 'string']);
+        }).should.throw('the item of comparisonArgs param MUST BE OBJECT');
     });
 });
 

@@ -4,6 +4,11 @@
 
 > Sort an object array by one or more properties even nested properties. Besides, you can determine the direction even supply a comparison function in each property sorting.
 
+## Update
+
+1.2.0 Version can provide much better performance at nearly 100x! Via code optimization and algorithm optimization. Such as when the length of input array  is 2000, the array sorting time, 1.1.0 Version use probably in 10s, 1.2.0 Version just use in 100ms.
+
+
 ## Install
 
 Install with [npm](https://www.npmjs.com/):
