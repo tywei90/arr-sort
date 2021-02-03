@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2018-2022, tywei90.
  * Released under the MIT License.
- * version: 1.2.0
+ * version: 1.2.5
  */
 
 'use strict';
@@ -209,7 +209,7 @@ function arrSort(arr, sortList) {
 		// if pick out matched arrays, push into outArr
 		if (filterArr[0].length || i >= len - 1) {
 			var rsArr = filterArr[0].concat(i >= len - 1 ? filterArr[1] : [])
-			outArr = outArr.concat(rsArr);
+			Array.prototype.push.apply(outArr, rsArr);
 			// delete the corresponding array, update inArr
 			var newInArr = []
 			var filterIndexArr = []
